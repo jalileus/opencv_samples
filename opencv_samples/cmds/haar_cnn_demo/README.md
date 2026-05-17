@@ -134,4 +134,5 @@ Same as original OpenCV samples (BSD license).
 
 ## Citations
 COCO 2017:
-> T.Y. Lin, M. Maire, S. Belongie, J. Hays, P. Perona, D. Ramanan, P. Doll{\'a}r, and C.L. Zitnick, "Microsoft COCO: Common objects in context," in \textit{European Conference on Computer Vision (ECCV)}, pp. 740--755, 2014.
+> Lin, T.-Y., Maire, M., Belongie, S., Hays, J., Perona, P., Ramanan, D., Dollár, P., & Zitnick, C. L. (2014). Microsoft COCO: Common objects in context. In *European Conference on Computer Vision (ECCV)* (pp. 740–755).
+
