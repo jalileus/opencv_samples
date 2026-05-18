@@ -1,4 +1,4 @@
 // conv2 bias (int8)
-const int8_t conv2_bias[] = { -87,   -2,  -27,   78,   70,   62,  -71,  -26,  -10,   -6,  127,  108,  -57, -104,  -83,  -57};
+const int8_t conv2_bias[] = { -23,  -12,   11,  -14,  -45,   -6,  -26,  -84,  -68,  -45,  -38,   55,   32,  127,   44,  -43};
 
-const float conv2_bias_scale = 0.001443f;
+const float conv2_bias_scale = 0.001967f;

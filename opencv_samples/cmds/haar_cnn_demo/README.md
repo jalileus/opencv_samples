@@ -11,7 +11,7 @@ Contact: Alkhazhali.zh@phystech.edu
 This repository is a fork of the OpenCV samples adapted for Embox. It contains two major enhancements:
 
 1. **Embedded Haar Cascades** - All XML files are converted to binary arrays, eliminating filesystem dependency
-2. **Hybrid Haar-CNN Face Detector** - A novel approach combining classical Haar with a tiny CNN (34KB, 98.8% accuracy)
+2. **Hybrid Haar-CNN Face Detector** - A novel approach combining classical Haar with a tiny CNN (34KB, 98.5% accuracy)
 
 ## Key Features of This Fork
 
@@ -31,33 +31,33 @@ Input Image → Haar Cascade → ROI Proposals (34 x 34) → TinyCNN (verifier) 
 ```
 
 ### New: Test images (`cnn_test`)
-Located in `data_samples/cnn_test/`, contains test images faces/non-faces
+Located in `data_samples/cnn_test/`, contains test images faces/non-faces taken from [COCO 2017 Dataset](https://www.kaggle.com/datasets/awsaf49/coco-2017-dataset).
 
 
 **Specifications:**
 - TinyCNN architecture: 34KB model (int8 quantized), 34×34 input
-- 98.8% accuracy on test set
-- 95% reduction in Haar false positives
-- Constant inference time per ROI (~40-60ms on Embox)
+- 98.5% accuracy on test set
+- More than 91% reduction in Haar false positives
+- Constant inference time per ROI (~35-40ms on Embox)
 - Trained weights included as C headers (int8 quantized)
 
 **Performance Results:**
 ```
 Test Set (1,950 images: 1,050 faces + 900 non-faces)
 
-Accuracy:  98.8%
-Precision: 98.9%
-Recall:    98.9%
-F1-Score:  0.989
+Accuracy:  98.5%
+Precision: 98.7%
+Recall:    98.6%
+F1-Score:  0.986
 
 Confusion Matrix:
            Predicted
            Face  Non-face
-Actual-Face 1038    12
-Non-face     11    889
+Actual-Face 1035    15
+Non-face     14    886
 
-False Positive Rate: 1.22%
-False Negative Rate: 1.14%
+False Positive Rate: 1.56%
+False Negative Rate: 1.43%
 ```
 
 ## Running on Embox
@@ -113,12 +113,12 @@ FC1 (1024→32) → ReLU → FC2 (32→1) → Sigmoid
 ```
 
 ### Quantization
-Weights are quantized to int8 with per-layer scaling, reducing size from 136KB to 34KB with **zero accuracy loss**.
+Weights are quantized to int8 with per-layer scaling, reducing size from 136KB to 33.28KB with **0.05% accuracy loss**.
 
 ## Building from Source (for your own training)
 
-If you want to retrain the CNN with your own data:
-check the link -> (link will be available soon)
+If you want to retrain the CNN with your own data or repeat results:
+check the link -> [TinyCNN](https://github.com/jalileus/TinyCNN)
 
 ## License
 
@@ -130,3 +130,9 @@ Same as original OpenCV samples (BSD license).
 - Embox developers
 - LFW dataset for face images
 - PASS dataset for hard negative mining
+- COCO 2017 dataset for test images
+
+## Citations
+COCO 2017:
+> Lin, T.-Y., Maire, M., Belongie, S., Hays, J., Perona, P., Ramanan, D., Dollár, P., & Zitnick, C. L. (2014). Microsoft COCO: Common objects in context. In *European Conference on Computer Vision (ECCV)* (pp. 740–755).
+
