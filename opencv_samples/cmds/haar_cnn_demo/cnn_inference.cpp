@@ -123,34 +123,32 @@ static void fc(float* input, float* output, FCLayer* layer) {
 float cnn_inference(uint8_t* image, int width, int height) {
     if (width != 34 || height != 34) return 0.5f;
 
+    // Static local buffers (.bss SRAM)
+    static float input[34 * 34];
+    static float buffer1[8 * 34 * 34];
+    static float buffer2[8 * 17 * 17];
+    static float fc1_out[32];
+    static float fc2_out[1];
+
     // Normalize input
-    float input[34*34];
     for (int i = 0; i < 34*34; i++) input[i] = image[i] / 255.0f;
 
     // Forward pass
-    float conv1_out[8 * 34 * 34];
-    conv2d(input, conv1_out, &conv1, 34, 34);
-    relu(conv1_out, 8 * 34 * 34);
+    conv2d(input, buffer1, &conv1, 34, 34);
+    relu(buffer1, 8 * 34 * 34);
 
-    float pool1_out[8 * 17 * 17];
-    maxpool2d(conv1_out, pool1_out, 34, 34, 8);
+    maxpool2d(buffer1, buffer2, 34, 34, 8);
 
-    float conv2_out[16 * 17 * 17];
-    conv2d(pool1_out, conv2_out, &conv2, 17, 17);
-    relu(conv2_out, 16 * 17 * 17);
+    conv2d(buffer2, buffer1, &conv2, 17, 17);
+    relu(buffer1, 16 * 17 * 17);
 
-    float pool2_out[16 * 8 * 8];
-    maxpool2d(conv2_out, pool2_out, 17, 17, 16);
+    maxpool2d(buffer1, buffer2, 17, 17, 16);
 
-    // Flatten
-    float flat[16 * 8 * 8];
-    for (int i = 0; i < 16*8*8; i++) flat[i] = pool2_out[i];
+    // buffer2 holds flattened 16*8*8 tensor
 
-    float fc1_out[32];
-    fc(flat, fc1_out, &fc1);
+    fc(buffer2, fc1_out, &fc1);
     relu(fc1_out, 32);
 
-    float fc2_out[1];
     fc(fc1_out, fc2_out, &fc2);
 
     // Sigmoid
